@@ -13,8 +13,18 @@
     <string name="subtitle_format">%1$d crimes</string>
     <string name="delete">Delete</string>
     <string name="no_data">Empty</string>
+    <string name="choose_suspect">Choose suspect</string>
+    <string name="send_report">Send crime report</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$d crime</item>
         <item quantity="other">%1$d crimes</item>
     </plurals>
+    <string name="crime_report">%1$s! The crime was discovered on %2$s. %3$s, and %4$s</string>
+    <string name="crime_report_solved">The case is solved</string>
+    <string name="crime_report_unsolved">The case is not solved</string>
+    <string name="crime_report_no_suspect">there is no suspect.</string>
+    <string name="crime_report_suspect">the suspect is %s.</string>
+    <string name="crime_report_subject">CriminalIntent Crime Report</string>
+    <string name="send_report_via">Send crime report via</string>
+    <string name="call_suspect">Call suspect</string>
 </resources>

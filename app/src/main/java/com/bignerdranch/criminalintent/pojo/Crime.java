@@ -1,4 +1,4 @@
-package com.bignerdranch.criminalintent;
+package com.bignerdranch.criminalintent.pojo;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,6 +16,7 @@ public class Crime {
     private Date mDate;
     private boolean mSolved;
     private boolean mRequiresPolice;
+    private String suspect;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -23,7 +24,7 @@ public class Crime {
 
     public Crime(UUID id) {
         mId = id;
-        mDate = new Date();
+        mDate = new Date(System.currentTimeMillis());
     }
 
     public UUID getId() {
@@ -60,5 +61,13 @@ public class Crime {
 
     public void setRequiresPolice(boolean requiresPolice) {
         mRequiresPolice = requiresPolice;
+    }
+
+    public String getSuspect() {
+        return suspect;
+    }
+
+    public void setSuspect(String suspect) {
+        this.suspect = suspect;
     }
 }

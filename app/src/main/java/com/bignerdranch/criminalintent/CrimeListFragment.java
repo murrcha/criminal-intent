@@ -18,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bignerdranch.criminalintent.pojo.Crime;
+import com.bignerdranch.criminalintent.pojo.CrimeLab;
+
 import java.util.List;
 
 /**
@@ -53,8 +56,8 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void updateSubtitle() {
-        CrimeLab crimeLab = CrimeLab.get(getActivity());
-        int crimeCount = crimeLab.getCrimes().size();
+        //CrimeLab crimeLab = CrimeLab.get(getActivity());
+        //int crimeCount = crimeLab.getCrimes().size();
         int crimeSize = CrimeLab.get(getContext()).getCrimes().size();
         String subtitle = getResources()
                 .getQuantityString(R.plurals.subtitle_plural, crimeSize, crimeSize);

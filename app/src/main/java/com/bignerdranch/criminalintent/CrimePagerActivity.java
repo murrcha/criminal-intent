@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.bignerdranch.criminalintent.pojo.Crime;
+import com.bignerdranch.criminalintent.pojo.CrimeLab;
+
 import java.util.List;
 import java.util.UUID;
 
