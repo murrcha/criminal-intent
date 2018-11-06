@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -190,15 +191,26 @@ public class CrimeFragment extends Fragment {
             chooseSuspectButton.setText(crime.getSuspect());
         }
         callSuspectButton = v.findViewById(R.id.call_suspect);
+        if (crime.getNumber() != null) {
+            callSuspectButton.setText(crime.getNumber());
+        } else {
+            callSuspectButton.setText(R.string.no_number);
+        }
         callSuspectButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Uri number = Uri.parse(String.format("tel:%s", callSuspectButton.getText()));
+                Intent intent = ShareCompat.IntentBuilder.from(Objects.requireNonNull(getActivity()))
+                        .getIntent()
+                        .setAction(Intent.ACTION_DIAL)
+                        .setData(number);
+                startActivity(intent);
             }
         });
-        PackageManager packageManager = getActivity().getPackageManager();
+        PackageManager packageManager = Objects.requireNonNull(getActivity()).getPackageManager();
         if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
             chooseSuspectButton.setEnabled(false);
+            callSuspectButton.setEnabled(false);
         }
         return v;
     }
@@ -221,18 +233,38 @@ public class CrimeFragment extends Fragment {
         }
         if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
-            String[] queryFields = new String[] {ContactsContract.Contacts.DISPLAY_NAME};
-            try (Cursor cursor = Objects.requireNonNull(getActivity())
+            String[] queryFields = new String[] {ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts._ID};
+            try (Cursor contactCursor = Objects.requireNonNull(getActivity())
                     .getContentResolver()
                     .query(Objects.requireNonNull(contactUri), queryFields, null, null, null)
             ) {
-                if (Objects.requireNonNull(cursor).getCount() == 0) {
+                if (Objects.requireNonNull(contactCursor).getCount() == 0) {
                     return;
                 }
-                cursor.moveToFirst();
-                String suspect = cursor.getString(0);
+                contactCursor.moveToFirst();
+                String suspect = contactCursor.getString(0);
+                String contactId = contactCursor.getString(1); //for query phone number
                 crime.setSuspect(suspect);
                 chooseSuspectButton.setText(suspect);
+                try (Cursor phoneCursor = getActivity()
+                        .getContentResolver()
+                        .query(Phone.CONTENT_URI,
+                                null,
+                                String.format("%s = %s", Phone.CONTACT_ID, contactId),
+                                null,
+                                null)) {
+                    if (Objects.requireNonNull(phoneCursor).getCount() == 0) {
+                        return;
+                    }
+                    phoneCursor.moveToFirst();
+                    String number = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.NUMBER));
+                    if (number != null) {
+                        callSuspectButton.setText(number);
+                        crime.setNumber(number);
+                    } else {
+                        callSuspectButton.setText(R.string.no_number);
+                    }
+                }
             }
         }
     }
