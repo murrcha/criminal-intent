@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -35,7 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bignerdranch.criminalintent.pojo.Crime;
-import com.bignerdranch.criminalintent.pojo.CrimeLab;
+import com.bignerdranch.criminalintent.database.CrimeLab;
 import com.bignerdranch.criminalintent.utils.PictureUtils;
 
 import java.io.File;
@@ -260,6 +261,15 @@ public class CrimeFragment extends Fragment {
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
                 startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+        photoView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Bitmap bitmap = PictureUtils.getScaledBitmap(photoFile.getPath(), photoView.getWidth(), photoView.getHeight());
+                photoView.setImageBitmap(bitmap);
+                photoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
         updatePhotoView();

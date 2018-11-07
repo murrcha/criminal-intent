@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bignerdranch.criminalintent.pojo.Crime;
-import com.bignerdranch.criminalintent.pojo.CrimeLab;
+import com.bignerdranch.criminalintent.database.CrimeLab;
 
 import java.util.List;
 

@@ -1,13 +1,12 @@
-package com.bignerdranch.criminalintent.pojo;
+package com.bignerdranch.criminalintent.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.bignerdranch.criminalintent.database.CrimeBaseHelper;
-import com.bignerdranch.criminalintent.database.CrimeCursorWrapper;
 import com.bignerdranch.criminalintent.database.CrimeDbSchema.CrimeTable;
+import com.bignerdranch.criminalintent.pojo.Crime;
 
 import java.io.File;
 import java.util.ArrayList;
