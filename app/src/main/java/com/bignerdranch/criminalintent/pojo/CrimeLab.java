@@ -9,6 +9,7 @@ import com.bignerdranch.criminalintent.database.CrimeBaseHelper;
 import com.bignerdranch.criminalintent.database.CrimeCursorWrapper;
 import com.bignerdranch.criminalintent.database.CrimeDbSchema.CrimeTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -86,6 +87,11 @@ public class CrimeLab {
             cursor.close();
         }
         return crime;
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File filesDir = context.getFilesDir();
+        return new File(filesDir, crime.getPhotoFilename());
     }
 
     private static ContentValues getContentValues(Crime crime) {
