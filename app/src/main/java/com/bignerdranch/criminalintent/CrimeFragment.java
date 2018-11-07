@@ -13,6 +13,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
@@ -262,6 +263,13 @@ public class CrimeFragment extends Fragment {
             }
         });
         updatePhotoView();
+        photoView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dialog = PhotoFragment.newInstance(photoFile);
+                dialog.show(getActivity().getSupportFragmentManager(), "photo_detail");
+            }
+        });
         return v;
     }
 
